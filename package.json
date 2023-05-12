@@ -26,7 +26,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint . --fix",
     "prettier-find": "prettier . --check",
-    "prettier-fix": "prettier . --write"
+    "prettier-fix": "prettier . --write",
+    "server": "node server/server.js"
   },
   "eslintConfig": {
     "extends": [
