@@ -1,23 +1,14 @@
-const jsonServer = require('json-server');
-const server = jsonServer.create();
-// const middlewares = jsonServer.defaults()
+const express = require('express');
+const app = express();
+const { generateDb, loadDb } = require('./generateData.js');
+const bcrypt = require('bcrypt');
+const { generateJwt } = require('./jwt.js');
 
-// Set default middlewares (logger, static, cors and no-cache)
-// server.use(middlewares)
+const port = 3001;
 
-server.get('/login', (req, res) => {
-  res.json('200');
-});
+app.use(express.json());
 
-server.use(jsonServer.bodyParser);
-// server.use((req, res, next) => {
-//   if (req.method === 'POST') {
-//     req.body.createdAt = Date.now();
-//   }
-//   // Continue to JSON Server router
-//   next();
-// });
-
-server.listen(3000, () => {
-  console.log('JSON Server is running');
+app.listen(port, () => {
+  console.log(`JSON Server is running in port ${port}`);
+  generateDb();
 });
