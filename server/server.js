@@ -14,6 +14,17 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const data = loadDb();
+  const user = data.find((user) => user.username === username && bcrypt.compareSync(password, user.hashedPassword));
+  if (!user) {
+    return res.status(401).json('Error');
+  }
+  const token = generateJwt(user);
+  return res.json(token);
+});
+
 app.listen(port, () => {
   console.log(`JSON Server is running in port ${port}`);
   generateDb();
