@@ -30,5 +30,6 @@ module.exports = {
     },
     "ignorePatterns" : [
         ".eslintrc.js",
+        "server/",
     ]
 };
