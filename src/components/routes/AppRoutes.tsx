@@ -3,6 +3,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Login } from 'pages/Login';
+import { Dashboard } from "pages/Dashboard";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRoutes = () => {
@@ -19,7 +20,7 @@ export const AppRoutes = () => {
       path: "/dashboard",
       element: (
         <ProtectedRoute>
-          <p>Dashboard</p>
+          <Dashboard/>
         </ProtectedRoute>
       ),
     },
