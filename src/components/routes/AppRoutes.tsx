@@ -3,6 +3,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { Login } from 'pages/Login';
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRoutes = () => {
   const router = createBrowserRouter([
@@ -16,7 +17,11 @@ export const AppRoutes = () => {
     },
     {
       path: "/dashboard",
-      element: (<p>Dashboard</p>),
+      element: (
+        <ProtectedRoute>
+          <p>Dashboard</p>
+        </ProtectedRoute>
+      ),
     },
     {
       path: "*",

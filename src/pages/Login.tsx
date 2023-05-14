@@ -2,11 +2,13 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { LoginForm } from 'types/pages/login.types';
 import { fetchLogin } from 'utils/login.request';
 import { LocalStorage } from "utils/LocalStorage";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const initialFormValues: LoginForm = { username: '', password: '' };
   const [credentials, setCredentials] = useState(initialFormValues);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const handleCredentialsChanges = (e: ChangeEvent<HTMLInputElement>) => {
     setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   };
@@ -17,6 +19,7 @@ export const Login = () => {
       .then((res) => {
         LocalStorage.jwt = res.data;
         setCredentials(initialFormValues);
+        navigate('/dashboard');
       })
       .catch((err) => {
         LocalStorage.jwt = null;
@@ -25,6 +28,10 @@ export const Login = () => {
       .finally(() => setLoading(false));
   }
   const formDisabled = !credentials.username || !credentials.password;
+
+  if (LocalStorage.jwt) {
+    return <Navigate to="/dashboard" replace />
+  };
 
   return (
     <form onSubmit={handleSubmit}>
