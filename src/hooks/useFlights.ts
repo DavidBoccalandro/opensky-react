@@ -4,14 +4,12 @@ import { FlightService } from 'services/flights.services';
 import { apiSuccess } from 'utils/api.guards';
 
 export const useFlights = () => {
-  const [flights, setFlights] = useState<Map<string, unknown>>(new Map());
+  const [flights, setFlights] = useState<Map<string, {arrivals: any, departures: any}>>(new Map());
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
   const getFlightsByAirport = useCallback(
-    (airport: string) => {
-      flights.get(airport);
-    },
+    (airport: string) => flights.get(airport),
     [flights]
   );
 

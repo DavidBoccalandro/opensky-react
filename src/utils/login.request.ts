@@ -1,16 +1,4 @@
 import { LoginForm } from 'types/pages/login.types';
+import axios from 'axios';
 
-export const fetchLogin = (credentials: LoginForm) =>
-  new Promise((resolve, reject) => {
-    const credentialsAreValid = credentials.username === 'admin' && credentials.password === 'admin';
-    setTimeout(() => {
-      if (credentialsAreValid) {
-        resolve({
-          id: 1,
-          username: credentials.username,
-        });
-      } else {
-        reject(new Error('Invalid credentials'));
-      }
-    }, 2000);
-  });
+export const fetchLogin = (credentials: LoginForm) => axios.post('http://localhost:3001/login', credentials);
