@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { LoginForm } from 'types/pages/login.types';
 import { fetchLogin } from 'utils/login.request';
+import { LocalStorage } from "utils/LocalStorage";
 
 export const Login = () => {
   const initialFormValues: LoginForm = { username: '', password: '' };
@@ -14,10 +15,13 @@ export const Login = () => {
     e.preventDefault();
     fetchLogin(credentials)
       .then((res) => {
-        console.log(res);
+        LocalStorage.jwt = res.data;
         setCredentials(initialFormValues);
       })
-      .catch(console.log)
+      .catch((err) => {
+        LocalStorage.jwt = null;
+        console.log(err);
+      })
       .finally(() => setLoading(false));
   }
   const formDisabled = !credentials.username || !credentials.password;
