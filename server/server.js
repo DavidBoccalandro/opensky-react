@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const { generateDb, loadDb } = require('./generateData.js');
 const bcrypt = require('bcrypt');
-const { generateJwt } = require('./jwt.js');
+const { generateJwt, validateJwt } = require('./jwt.js');
 
 const port = 3001;
 
@@ -19,10 +19,19 @@ app.post('/login', (req, res) => {
   const data = loadDb();
   const user = data.find((user) => user.username === username && bcrypt.compareSync(password, user.hashedPassword));
   if (!user) {
-    return res.status(401).json('Error');
+    return res.status(401).json('Authentication Error');
   }
   const token = generateJwt(user);
   return res.json(token);
+});
+
+app.post('validate-jwt', (req, res) => {
+  try {
+    const token = req.headers.authorization;
+    return validateJwt(token) ? res.json('Active Session') : res.status(401).json({ error: 'Authorization Error' });
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
 });
 
 app.listen(port, () => {
